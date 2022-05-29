@@ -12,7 +12,8 @@ import java.util.List;
 public class AnswerOptionsServiceImpl implements AnswersOptionsService {
 
     private static final String questionIdent = "Q";
-    private static final String answerIdent = "A";
+    private static final String answerOptionsIdent = "A";
+    private static final String answerCorrectIdent = "C";
 
     @Override
     public List<AnswerOptionsModel> getAnswersOptions(List<String> reedData) {
@@ -32,7 +33,9 @@ public class AnswerOptionsServiceImpl implements AnswersOptionsService {
         List<String> stringList = Arrays.asList(str.split(" "));
         for(int i = 0; i < stringList.size(); i++){
             String s = stringList.get(i);
-            if (i == 0 && s.contains(questionIdent) && s.contains(answerIdent)){
+            if (i == 0 && s.contains(questionIdent)
+                    && s.contains(answerOptionsIdent)
+                    && !s.contains(answerCorrectIdent)){
                 int indexQuestion = s.indexOf(questionIdent);
                 answerOptionsModel.setAnswerIdent(s.substring(0, indexQuestion));
                 answerOptionsModel.setQuestionIdent(s.substring(indexQuestion));

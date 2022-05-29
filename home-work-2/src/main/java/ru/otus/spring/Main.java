@@ -6,6 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.otus.spring.service.PresentationService;
 import ru.otus.spring.service.PrintQuestionsAnswersService;
+import ru.otus.spring.service.impl.PresentationServiceImpl;
 
 @PropertySource("classpath:application.properties")
 @ComponentScan
