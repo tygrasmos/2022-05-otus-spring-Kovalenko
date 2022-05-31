@@ -13,6 +13,7 @@ public class CorrectAnswerServiceImpl implements CorrectAnswerService {
 
     private static final String questionIdent = "Q";
     private static final String answerCorrectIdent = "C";
+    private static final String answerOptionsIdent = "A";
 
 
     @Override
@@ -34,12 +35,15 @@ public class CorrectAnswerServiceImpl implements CorrectAnswerService {
         for(int i = 0; i < stringList.size(); i++){
             String s = stringList.get(i);
             if (i == 0 && s.contains(answerCorrectIdent) && s.contains(questionIdent)){
-                correctAnswerModel.setQuestionIdent(stringList.get(i));
+                int indexQuestion = s.indexOf(questionIdent);
+                correctAnswerModel.setCorrectAnswerIdent(s.substring(0, indexQuestion));
+                correctAnswerModel.setQuestionIdent(s.substring(indexQuestion));
+            } else if (i == 1 && s.contains(answerOptionsIdent)){
+                correctAnswerModel.setAnswerIdent(s);
             } else {
                 sb.append(s).append(" ");
             }
         }
-        correctAnswerModel.setQuestionIdent(sb.substring(0, sb.length() - 1));
         return correctAnswerModel;
     }
 

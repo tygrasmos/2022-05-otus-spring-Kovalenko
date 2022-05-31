@@ -24,9 +24,9 @@ A1Q6 Conductor magnetic field,
 A2Q6 The speed of wave propagation in space,
 A3Q6 Schematic description of the trajectory of electrons around an atom,
 A4Q6 Fundamental Doctrine of Probability Theory,
-CQ2 A1,
-CQ3 A2,
-CQ4 A3,
-CQ5 A3,
-CQ6 A3
+C1Q2 A1,
+C2Q3 A2,
+C3Q4 A3,
+C4Q5 A3,
+C5Q6 A3
 

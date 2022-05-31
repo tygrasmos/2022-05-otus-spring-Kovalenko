@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.spring.model.AnswerOptionsModel;
 import ru.otus.spring.model.CorrectAnswerModel;
 import ru.otus.spring.model.QuestionModel;
+import ru.otus.spring.model.TestResultModel;
 import ru.otus.spring.service.PrintQuestionsAnswersService;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 public class PrintQuestionsAnswersServiceImpl implements PrintQuestionsAnswersService {
 
     @Override
-    public void printQuestionsAndAnswerOptions(List<AnswerOptionsModel> answerOptionsModelList
+    public void printQuestionsAndAnswerOptionsAndCorrectAnswers(List<AnswerOptionsModel> answerOptionsModelList
             , List<QuestionModel> questionModelList
             , List<CorrectAnswerModel> correctAnswerModelList) {
         System.out.println("-------------------- Questions and Options Answers ------------------------");
@@ -29,12 +30,11 @@ public class PrintQuestionsAnswersServiceImpl implements PrintQuestionsAnswersSe
             questionModelList.forEach(q ->{
                 if (q.getQuestionIdent().equals(ca.getQuestionIdent())){
                     System.out.println("Question: " + q.getQuestion());
-                    answerOptionsModelList.forEach(ao ->{
-                        if (ao.getAnswerIdent().equals(ca.getAnswerIdent())){
-                            System.out.println("Correct answer: " + ao.getAnswer());
-                        }
-                    });
-
+                }
+            });
+            answerOptionsModelList.forEach(ao ->{
+                if (ao.getAnswerIdent().equals(ca.getAnswerIdent()) && ao.getQuestionIdent().equals(ca.getQuestionIdent())){
+                    System.out.println("Correct answer: " + ao.getAnswer());
                 }
             });
         });
@@ -42,7 +42,7 @@ public class PrintQuestionsAnswersServiceImpl implements PrintQuestionsAnswersSe
     }
 
     @Override
-    public void printTestResult() {
+    public void printTestResult(TestResultModel testResultModel) {
 
     }
 

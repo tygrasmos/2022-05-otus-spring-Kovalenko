@@ -30,7 +30,7 @@ public class PresentationServiceImpl implements PresentationService {
     public void presentQuestionsAndAnswersOptions() {
         List<String> reedData = resourceService.reedFile();
         if (reedData != null){
-            printQuestionsAnswersService.printQuestionsAndAnswerOptions(
+            printQuestionsAnswersService.printQuestionsAndAnswerOptionsAndCorrectAnswers(
                     answersOptionsService.getAnswersOptions(reedData),
                     questionService.getQuestions(reedData),
                     correctAnswerService.getCorrectAnswers(reedData));
