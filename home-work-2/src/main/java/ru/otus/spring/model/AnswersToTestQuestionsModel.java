@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public final class AnswersToTestQuestionsModel {
+public class AnswersToTestQuestionsModel {
 
     private String fullName;
     private List<AnswerOnQuestionModel> questionResultModelList;

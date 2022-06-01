@@ -11,18 +11,18 @@ public class PresentationServiceImpl implements PresentationService {
     private final ResourceService resourceService;
     private final QuestionService questionService;
     private final AnswersOptionsService answersOptionsService;
-    private final PrintQuestionsAnswersService printQuestionsAnswersService;
+    private final PrintService printService;
     private final CorrectAnswerService correctAnswerService;
 
     public PresentationServiceImpl(ResourceService resourceService,
                                    QuestionService questionService,
                                    AnswersOptionsService answersOptionsService,
-                                   PrintQuestionsAnswersService printQuestionsAnswersService,
+                                   PrintService printService,
                                    CorrectAnswerService correctAnswerService){
         this.resourceService = resourceService;
         this.questionService = questionService;
         this.answersOptionsService = answersOptionsService;
-        this.printQuestionsAnswersService = printQuestionsAnswersService;
+        this.printService = printService;
         this.correctAnswerService = correctAnswerService;
     }
 
@@ -30,12 +30,12 @@ public class PresentationServiceImpl implements PresentationService {
     public void presentQuestionsAndAnswersOptions() {
         List<String> reedData = resourceService.reedFile();
         if (reedData != null){
-            printQuestionsAnswersService.printQuestionsAndAnswerOptionsAndCorrectAnswers(
+            printService.printQuestionsAndAnswerOptionsAndCorrectAnswers(
                     answersOptionsService.getAnswersOptions(reedData),
                     questionService.getQuestions(reedData),
                     correctAnswerService.getCorrectAnswers(reedData));
         } else {
-            printQuestionsAnswersService.printError();
+            printService.printError();
         }
     }
 }
