@@ -25,7 +25,7 @@ public class PrintServiceImpl implements PrintService {
     private final static String FULL_NAME                = "Full name of the person being tested : ";
     private final static String QUANTITY_QUESTIONS       = "Number of questions in the test      : ";
     private final static String QUANTITY_CORRECT_ANSWERS = "Number of correct answers            : ";
-    private final static String TEST_SCORE               = "Test Result                          : ";
+    private final static String TEST_SCORE               = "Test score                           : ";
     private final static String ERROR_MESSAGE = "Failed to reed data from file.";
 
 
@@ -95,7 +95,23 @@ public class PrintServiceImpl implements PrintService {
         print(ERROR_MESSAGE);
     }
 
-    private void print(Object o){
+    @Override
+    public void printSingleQuestionAndAnswers(QuestionModel question, List<AnswerOptionsModel> answerOptionsList) {
+        String ident = question.getQuestionIdent();
+        if (ident.contains("1") && ident.length() == 2){
+            print(question);
+        } else {
+            print(question);
+            answerOptionsList.forEach(a ->{
+                if (a.getQuestionIdent().equals(question.getQuestionIdent())){
+                    print(a);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void print(Object o){
         if (o.getClass().equals(QuestionModel.class)){
             QuestionModel q = (QuestionModel) o;
             System.out.println(q.getQuestionIdent() + " - " + q.getQuestion());

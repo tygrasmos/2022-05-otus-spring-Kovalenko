@@ -25,4 +25,8 @@ public interface PrintService {
             , List<CorrectAnswerModel> correctAnswerModelList);
 
     void printError();
+
+    void printSingleQuestionAndAnswers(QuestionModel question, List<AnswerOptionsModel> answerOptionsList);
+
+    void print(Object o);
 }
