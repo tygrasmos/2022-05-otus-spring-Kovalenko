@@ -1,5 +1,6 @@
 package ru.otus.spring.service.impl;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.model.AnswerOnQuestionModel;
 import ru.otus.spring.model.AnswersToTestQuestionsModel;
@@ -11,6 +12,9 @@ import java.util.List;
 
 @Service
 public class StudentTestResultServiceImpl implements StudentTestResultService {
+
+    @Value("${quantityCorrectAnswers}")
+    private String quantityCorrectAnswers;
 
     @Override
     public TestResultModel getTestResult(AnswersToTestQuestionsModel answersToTestQuestionsModel
@@ -24,6 +28,7 @@ public class StudentTestResultServiceImpl implements StudentTestResultService {
         testResultModel.setQuestionsQuantity(quantityQuestions);
         testResultModel.setCorrectAnswersQuantity(quantityCorrectAnswers);
         testResultModel.setTestScore(getScore(quantityCorrectAnswers, quantityQuestions));
+        testResultModel.setIsOffset(isOffset(quantityCorrectAnswers));
         return testResultModel;
     }
 
@@ -39,6 +44,10 @@ public class StudentTestResultServiceImpl implements StudentTestResultService {
             }
         }
         return count;
+    }
+
+    private Boolean isOffset(Integer qa){
+        return qa >= Integer.parseInt(quantityCorrectAnswers);
     }
 
     private Integer getScore(Integer qa, Integer qq){

@@ -26,6 +26,7 @@ public class PrintServiceImpl implements PrintService {
     private final static String QUANTITY_QUESTIONS       = "Number of questions in the test      : ";
     private final static String QUANTITY_CORRECT_ANSWERS = "Number of correct answers            : ";
     private final static String TEST_SCORE               = "Test score                           : ";
+    private final static String OFFSET                   = "Is Offset                            : ";
     private final static String ERROR_MESSAGE = "Failed to reed data from file.";
 
 
@@ -124,6 +125,7 @@ public class PrintServiceImpl implements PrintService {
             System.out.println(QUANTITY_QUESTIONS + tr.getQuestionsQuantity());
             System.out.println(QUANTITY_CORRECT_ANSWERS + tr.getCorrectAnswersQuantity());
             System.out.println(TEST_SCORE + tr.getTestScore());
+            System.out.println(OFFSET + (tr.getIsOffset().equals(Boolean.TRUE) ? "offset" : "fail"));
         } else {
             String str = (String) o;
             System.out.println(str);

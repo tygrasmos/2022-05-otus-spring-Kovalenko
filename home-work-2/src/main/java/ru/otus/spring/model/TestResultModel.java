@@ -9,5 +9,6 @@ public class TestResultModel {
     private Integer questionsQuantity;
     private Integer correctAnswersQuantity;
     private Integer testScore;
+    private Boolean isOffset;
 
 }
