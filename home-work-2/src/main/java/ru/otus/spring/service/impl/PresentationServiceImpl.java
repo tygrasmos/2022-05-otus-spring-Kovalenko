@@ -1,8 +1,10 @@
 package ru.otus.spring.service.impl;
 
 import org.springframework.stereotype.Service;
+import ru.otus.spring.model.AnswerOptions;
 import ru.otus.spring.model.AnswersToTestQuestionsModel;
-import ru.otus.spring.model.TestResultModel;
+import ru.otus.spring.model.Question;
+import ru.otus.spring.model.TestResult;
 import ru.otus.spring.service.*;
 
 import java.util.List;
@@ -37,10 +39,12 @@ public class PresentationServiceImpl implements PresentationService {
     @Override
     public void presentQuestionsAndAnswersOptions() {
         List<String> reedData = resourceService.reedFile();
+        List<Question> questionList = questionService.getQuestions(reedData);
+        List<AnswerOptions> answerOptionsList = answersOptionsService.getAnswersOptions(reedData);
         if (reedData != null){
-            AnswersToTestQuestionsModel model =  questionAnsweringService.getAnswersOnTest(questionService.getQuestions(reedData)
-                    , answersOptionsService.getAnswersOptions(reedData));
-            TestResultModel testResult = studentTestResultService.getTestResult(model, correctAnswerService.getCorrectAnswers(reedData));
+            AnswersToTestQuestionsModel model =  questionAnsweringService.getAnswersOnTest(questionList, answerOptionsList);
+            TestResult testResult = studentTestResultService.getTestResult(
+                    model, correctAnswerService.getCorrectAnswers(reedData, questionList, answerOptionsList));
             printService.printTestResult(testResult);
         } else {
             printService.printError();

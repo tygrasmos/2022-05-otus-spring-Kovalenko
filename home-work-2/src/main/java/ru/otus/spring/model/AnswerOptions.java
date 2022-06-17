@@ -3,9 +3,9 @@ package ru.otus.spring.model;
 import lombok.Data;
 
 @Data
-public class CorrectAnswerModel {
+public class AnswerOptions {
 
-    private String correctAnswerIdent;
+    private String answer;
     private String answerIdent;
     private String questionIdent;
 

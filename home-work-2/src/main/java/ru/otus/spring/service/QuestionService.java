@@ -1,11 +1,11 @@
 package ru.otus.spring.service;
 
-import ru.otus.spring.model.QuestionModel;
+import ru.otus.spring.model.Question;
 
 import java.util.List;
 
 public interface QuestionService {
 
-    List<QuestionModel> getQuestions(List<String> reedData);
+    List<Question> getQuestions(List<String> reedData);
 
 }

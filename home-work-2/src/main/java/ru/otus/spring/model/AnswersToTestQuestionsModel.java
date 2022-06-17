@@ -1,8 +1,6 @@
 package ru.otus.spring.model;
 
 
-import lombok.Data;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +8,7 @@ import java.util.List;
 public class AnswersToTestQuestionsModel {
 
     private String fullName;
-    private List<AnswerOnQuestionModel> questionResultModelList;
+    private List<AnswerOnQuestion> questionResultModelList;
 
     public String getFullName() {
         return fullName;
@@ -20,11 +18,11 @@ public class AnswersToTestQuestionsModel {
         this.fullName = fullName;
     }
 
-    public List<AnswerOnQuestionModel> getQuestionResultModelList() {
+    public List<AnswerOnQuestion> getQuestionResultModelList() {
         return questionResultModelList;
     }
 
-    public void setQuestionResultModelList(List<AnswerOnQuestionModel> questionResultModelList) {
+    public void setQuestionResultModelList(List<AnswerOnQuestion> questionResultModelList) {
         this.questionResultModelList = new ArrayList<>(questionResultModelList);
     }
 }

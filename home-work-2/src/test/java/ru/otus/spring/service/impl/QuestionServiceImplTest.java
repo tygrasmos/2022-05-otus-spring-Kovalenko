@@ -3,7 +3,7 @@ package ru.otus.spring.service.impl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.otus.spring.model.QuestionModel;
+import ru.otus.spring.model.Question;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,12 +22,12 @@ class QuestionServiceImplTest {
                 , questionService.getQuestions(Arrays.asList(testStringArray)));
     }
 
-    private List<QuestionModel> getTestQuestionModelList(){
-        List<QuestionModel> list = new ArrayList<>();
-        QuestionModel quest1 = new QuestionModel();
+    private List<Question> getTestQuestionModelList(){
+        List<Question> list = new ArrayList<>();
+        Question quest1 = new Question();
         quest1.setQuestion("Question1?");
         quest1.setQuestionIdent("Q1");
-        QuestionModel quest2 = new QuestionModel();
+        Question quest2 = new Question();
         quest2.setQuestion("Question2?");
         quest2.setQuestionIdent("Q2");
         list.add(quest1);

@@ -1,10 +1,10 @@
 package ru.otus.spring.service.impl;
 
 import org.springframework.stereotype.Service;
-import ru.otus.spring.model.AnswerOptionsModel;
-import ru.otus.spring.model.CorrectAnswerModel;
-import ru.otus.spring.model.QuestionModel;
-import ru.otus.spring.model.TestResultModel;
+import ru.otus.spring.model.AnswerOptions;
+import ru.otus.spring.model.CorrectAnswer;
+import ru.otus.spring.model.Question;
+import ru.otus.spring.model.TestResult;
 import ru.otus.spring.service.PrintService;
 
 import java.util.List;
@@ -31,16 +31,16 @@ public class PrintServiceImpl implements PrintService {
 
 
     @Override
-    public void printQuestionsAndAnswerOptionsAndCorrectAnswers(List<AnswerOptionsModel> answerOptionsModelList
-            , List<QuestionModel> questionModelList
-            , List<CorrectAnswerModel> correctAnswerModelList) {
-        printQuestionsAndAnswerOptions(answerOptionsModelList, questionModelList);
-        printQuestionsAndCorrectAnswers(answerOptionsModelList, questionModelList, correctAnswerModelList);
+    public void printQuestionsAndAnswerOptionsAndCorrectAnswers(List<AnswerOptions> answerOptionsList
+            , List<Question> questionList
+            , List<CorrectAnswer> correctAnswerList) {
+        printQuestionsAndAnswerOptions(answerOptionsList, questionList);
+        printQuestionsAndCorrectAnswers(answerOptionsList, questionList, correctAnswerList);
     }
 
     @Override
-    public void printQuestions(List<QuestionModel> questionModelList) {
-        questionModelList.forEach(q -> {
+    public void printQuestions(List<Question> questionList) {
+        questionList.forEach(q -> {
             print(QUESTIONS_TITLE);
             print(q);
             print(END_TITLE);
@@ -48,12 +48,12 @@ public class PrintServiceImpl implements PrintService {
     }
 
     @Override
-    public void printQuestionsAndAnswerOptions(List<AnswerOptionsModel> answerOptionsModelList
-            , List<QuestionModel> questionModelList) {
+    public void printQuestionsAndAnswerOptions(List<AnswerOptions> answerOptionsList
+            , List<Question> questionList) {
         print(QUESTIONS_AND_OPTIONS_ANSWERS_TITLE);
-        questionModelList.forEach(q -> {
+        questionList.forEach(q -> {
             print(q);
-            answerOptionsModelList.forEach(a -> {
+            answerOptionsList.forEach(a -> {
                 if (a.getQuestionIdent().equals(q.getQuestionIdent())) {
                     print(a);
                 }
@@ -63,26 +63,26 @@ public class PrintServiceImpl implements PrintService {
     }
 
     @Override
-    public void printTestResult(TestResultModel testResultModel) {
+    public void printTestResult(TestResult testResult) {
         print(RESULT_TITLE);
-        print(testResultModel);
+        print(testResult);
         print(END_TITLE);
     }
 
     @Override
-    public void printQuestionsAndCorrectAnswers(List<AnswerOptionsModel> answerOptionsModelList
-            , List<QuestionModel> questionModelList
-            , List<CorrectAnswerModel> correctAnswerModelList) {
+    public void printQuestionsAndCorrectAnswers(List<AnswerOptions> answerOptionsList
+            , List<Question> questionList
+            , List<CorrectAnswer> correctAnswerList) {
         print(CORRECT_ANSWERS_TO_QUESTIONS_TITLE);
-        correctAnswerModelList.forEach(ca ->{
-            questionModelList.forEach(q ->{
-                if (q.getQuestionIdent().equals(ca.getQuestionIdent())){
+        correctAnswerList.forEach(ca ->{
+            questionList.forEach(q ->{
+                if (q.equals(ca.getQuestion())){
                     print(q);
                 }
             });
-            answerOptionsModelList.forEach(ao ->{
-                if (ao.getAnswerIdent().equals(ca.getAnswerIdent())
-                        && ao.getQuestionIdent().equals(ca.getQuestionIdent())){
+            answerOptionsList.forEach(ao ->{
+                if (ao.equals(ca.getAnswerOptions())
+                        && ao.getQuestionIdent().equals(ca.getQuestion().getQuestionIdent())){
                     print(ao);
                 }
             });
@@ -97,7 +97,7 @@ public class PrintServiceImpl implements PrintService {
     }
 
     @Override
-    public void printSingleQuestionAndAnswers(QuestionModel question, List<AnswerOptionsModel> answerOptionsList) {
+    public void printSingleQuestionAndAnswers(Question question, List<AnswerOptions> answerOptionsList) {
         String ident = question.getQuestionIdent();
         if (ident.contains("1") && ident.length() == 2){
             print(question);
@@ -113,14 +113,14 @@ public class PrintServiceImpl implements PrintService {
 
     @Override
     public void print(Object o){
-        if (o.getClass().equals(QuestionModel.class)){
-            QuestionModel q = (QuestionModel) o;
+        if (o.getClass().equals(Question.class)){
+            Question q = (Question) o;
             System.out.println(q.getQuestionIdent() + " - " + q.getQuestion());
-        } else if (o.getClass().equals(AnswerOptionsModel.class)){
-            AnswerOptionsModel a = (AnswerOptionsModel) o;
+        } else if (o.getClass().equals(AnswerOptions.class)){
+            AnswerOptions a = (AnswerOptions) o;
             System.out.println("             " + a.getAnswerIdent() + " - " + a.getAnswer());
-        } else if (o.getClass().equals(TestResultModel.class)) {
-            TestResultModel tr = (TestResultModel) o;
+        } else if (o.getClass().equals(TestResult.class)) {
+            TestResult tr = (TestResult) o;
             System.out.println(FULL_NAME + tr.getAnswersToTestQuestionsModel().getFullName());
             System.out.println(QUANTITY_QUESTIONS + tr.getQuestionsQuantity());
             System.out.println(QUANTITY_CORRECT_ANSWERS + tr.getCorrectAnswersQuantity());

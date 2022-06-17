@@ -1,7 +1,7 @@
 package ru.otus.spring.service.impl;
 
 import org.springframework.stereotype.Service;
-import ru.otus.spring.model.AnswerOptionsModel;
+import ru.otus.spring.model.AnswerOptions;
 import ru.otus.spring.service.AnswersOptionsService;
 
 import java.util.ArrayList;
@@ -16,19 +16,19 @@ public class AnswerOptionsServiceImpl implements AnswersOptionsService {
     private static final String answerCorrectIdent = "C";
 
     @Override
-    public List<AnswerOptionsModel> getAnswersOptions(List<String> reedData) {
-        List<AnswerOptionsModel> answerOptionsModelList = new ArrayList<>();
+    public List<AnswerOptions> getAnswersOptions(List<String> reedData) {
+        List<AnswerOptions> answerOptionsList = new ArrayList<>();
         reedData.forEach(r ->{
-            AnswerOptionsModel answerOptionsModel = getAnswer(r);
-            if(answerOptionsModel.getQuestionIdent() != null) {
-                answerOptionsModelList.add(answerOptionsModel);
+            AnswerOptions answerOptions = getAnswer(r);
+            if(answerOptions.getQuestionIdent() != null) {
+                answerOptionsList.add(answerOptions);
             }
         });
-        return answerOptionsModelList;
+        return answerOptionsList;
     }
 
-    private AnswerOptionsModel getAnswer(String str){
-        AnswerOptionsModel answerOptionsModel = new AnswerOptionsModel();
+    private AnswerOptions getAnswer(String str){
+        AnswerOptions answerOptions = new AnswerOptions();
         StringBuilder sb = new StringBuilder();
         List<String> stringList = Arrays.asList(str.split(" "));
         for(int i = 0; i < stringList.size(); i++){
@@ -37,13 +37,13 @@ public class AnswerOptionsServiceImpl implements AnswersOptionsService {
                     && s.contains(answerOptionsIdent)
                     && !s.contains(answerCorrectIdent)){
                 int indexQuestion = s.indexOf(questionIdent);
-                answerOptionsModel.setAnswerIdent(s.substring(0, indexQuestion));
-                answerOptionsModel.setQuestionIdent(s.substring(indexQuestion));
+                answerOptions.setAnswerIdent(s.substring(0, indexQuestion));
+                answerOptions.setQuestionIdent(s.substring(indexQuestion));
             } else {
                 sb.append(s).append(" ");
             }
         }
-        answerOptionsModel.setAnswer(sb.substring(0, sb.length() - 1));
-        return answerOptionsModel;
+        answerOptions.setAnswer(sb.substring(0, sb.length() - 1));
+        return answerOptions;
     }
 }

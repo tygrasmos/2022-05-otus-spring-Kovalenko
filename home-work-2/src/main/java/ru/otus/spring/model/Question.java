@@ -3,7 +3,7 @@ package ru.otus.spring.model;
 import lombok.Data;
 
 @Data
-public class QuestionModel {
+public class Question {
 
     private String question;
     private String questionIdent;

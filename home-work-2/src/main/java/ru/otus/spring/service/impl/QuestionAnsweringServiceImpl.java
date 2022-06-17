@@ -1,10 +1,10 @@
 package ru.otus.spring.service.impl;
 
 import org.springframework.stereotype.Service;
-import ru.otus.spring.model.AnswerOnQuestionModel;
-import ru.otus.spring.model.AnswerOptionsModel;
+import ru.otus.spring.model.AnswerOnQuestion;
+import ru.otus.spring.model.AnswerOptions;
 import ru.otus.spring.model.AnswersToTestQuestionsModel;
-import ru.otus.spring.model.QuestionModel;
+import ru.otus.spring.model.Question;
 import ru.otus.spring.service.PrintService;
 import ru.otus.spring.service.QuestionAnsweringService;
 
@@ -30,28 +30,35 @@ public class QuestionAnsweringServiceImpl implements QuestionAnsweringService {
     private final Scanner sc = new Scanner(System.in);
 
     @Override
-    public AnswersToTestQuestionsModel getAnswersOnTest(List<QuestionModel> questionModelList
-            , List<AnswerOptionsModel> answerOptionsModelList) {
+    public AnswersToTestQuestionsModel getAnswersOnTest(List<Question> questionList
+            , List<AnswerOptions> answerOptionsList) {
         printService.print(TEST_TITLE);
         printService.print("");
         printService.print(NOTE);
         printService.print("");
         AnswersToTestQuestionsModel answersToTest = new AnswersToTestQuestionsModel();
-        List<AnswerOnQuestionModel> questionResultModelList = new ArrayList<>();
-        for (int i = 0; i < questionModelList.size(); i++){
-            printService.printSingleQuestionAndAnswers(questionModelList.get(i), answerOptionsModelList);
+        List<AnswerOnQuestion> questionResultModelList = new ArrayList<>();
+        for (int i = 0; i < questionList.size(); i++){
+            printService.printSingleQuestionAndAnswers(questionList.get(i), answerOptionsList);
             String str = sc.nextLine();
-            AnswerOnQuestionModel answerOnQuestion = new AnswerOnQuestionModel();
+            AnswerOnQuestion answerOnQuestion = new AnswerOnQuestion();
             if (i == 0){
                 answersToTest.setFullName(str);
             } else {
-                answerOnQuestion.setQuestionIdent(questionModelList.get(i).getQuestionIdent());
-                answerOnQuestion.setAnswerIdent(str);
+                answerOnQuestion.setQuestion(questionList.get(i));
+                answerOnQuestion.setAnswerOptions(findAnswerOptions(answerOptionsList, str));
                 questionResultModelList.add(answerOnQuestion);
             }
         }
         answersToTest.setQuestionResultModelList(questionResultModelList);
         printService.print(END_TESTING_TITLE);
         return answersToTest;
+    }
+
+    private AnswerOptions findAnswerOptions(List<AnswerOptions> answerOptionsList, String answerOptionsIdent){
+        return answerOptionsList.stream()
+                .filter(a -> a.getAnswerIdent().equals(answerOptionsIdent))
+                .findFirst()
+                .get();
     }
 }

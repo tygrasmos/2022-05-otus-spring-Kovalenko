@@ -2,10 +2,10 @@ package ru.otus.spring.service.impl;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.otus.spring.model.AnswerOnQuestionModel;
+import ru.otus.spring.model.AnswerOnQuestion;
 import ru.otus.spring.model.AnswersToTestQuestionsModel;
-import ru.otus.spring.model.CorrectAnswerModel;
-import ru.otus.spring.model.TestResultModel;
+import ru.otus.spring.model.CorrectAnswer;
+import ru.otus.spring.model.TestResult;
 import ru.otus.spring.service.StudentTestResultService;
 
 import java.util.List;
@@ -17,28 +17,28 @@ public class StudentTestResultServiceImpl implements StudentTestResultService {
     private String quantityCorrectAnswers;
 
     @Override
-    public TestResultModel getTestResult(AnswersToTestQuestionsModel answersToTestQuestionsModel
-            , List<CorrectAnswerModel> correctAnswerModelList) {
-        TestResultModel testResultModel = new TestResultModel();
-        testResultModel.setAnswersToTestQuestionsModel(answersToTestQuestionsModel);
+    public TestResult getTestResult(AnswersToTestQuestionsModel answersToTestQuestionsModel
+            , List<CorrectAnswer> correctAnswerList) {
+        TestResult testResult = new TestResult();
+        testResult.setAnswersToTestQuestionsModel(answersToTestQuestionsModel);
 
-        Integer quantityCorrectAnswers  = getQuantityCorrectAnswers(answersToTestQuestionsModel, correctAnswerModelList);
+        Integer quantityCorrectAnswers  = getQuantityCorrectAnswers(answersToTestQuestionsModel, correctAnswerList);
         Integer quantityQuestions = answersToTestQuestionsModel.getQuestionResultModelList().size();
 
-        testResultModel.setQuestionsQuantity(quantityQuestions);
-        testResultModel.setCorrectAnswersQuantity(quantityCorrectAnswers);
-        testResultModel.setTestScore(getScore(quantityCorrectAnswers, quantityQuestions));
-        testResultModel.setIsOffset(isOffset(quantityCorrectAnswers));
-        return testResultModel;
+        testResult.setQuestionsQuantity(quantityQuestions);
+        testResult.setCorrectAnswersQuantity(quantityCorrectAnswers);
+        testResult.setTestScore(getScore(quantityCorrectAnswers, quantityQuestions));
+        testResult.setIsOffset(isOffset(quantityCorrectAnswers));
+        return testResult;
     }
 
     private Integer getQuantityCorrectAnswers(AnswersToTestQuestionsModel answersToTestQuestionsModel,
-                                              List<CorrectAnswerModel> correctAnswerModelList){
+                                              List<CorrectAnswer> correctAnswerList){
         int count = 0;
-        for(CorrectAnswerModel a : correctAnswerModelList){
-            for(AnswerOnQuestionModel q : answersToTestQuestionsModel.getQuestionResultModelList()){
-                if (a.getQuestionIdent().equals(q.getQuestionIdent())
-                        && a.getAnswerIdent().equals(q.getAnswerIdent())){
+        for(CorrectAnswer a : correctAnswerList){
+            for(AnswerOnQuestion q : answersToTestQuestionsModel.getQuestionResultModelList()){
+                if (a.getQuestion().equals(q.getQuestion())
+                        && a.getAnswerOptions().equals(q.getAnswerOptions())){
                     count++;
                 }
             }
