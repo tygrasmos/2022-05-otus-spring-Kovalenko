@@ -58,14 +58,22 @@ public class BookDaoImpl implements BookDao {
     @Override
     public List<Book> findBooksByAuthor(Author author) {
         return namedParameterJdbcOperations.query(
-                "select id, name, author_id, genre_id from books where author_id = :author_id", Map.of("author_id", author.getId()), bookMapper
+                    "select b.id, b.name, b.author_id, b.genre_id, a.name author_name, g.name genre_name\n" +
+                        "  from books b\n" +
+                        "  left join authors a on a.id = b.author_id\n" +
+                        "  left join genres g on g.id = b.genre_id\n" +
+                        " where b.author_id = :author_id", Map.of("author_id", author.getId()), bookMapper
         );
     }
 
     @Override
     public List<Book> findBooksByGenre(Genre genre) {
         return namedParameterJdbcOperations.query(
-                "select id, name, author_id, genre_id from books where genre_id = :genre_id", Map.of("genre_id", genre.getId()), bookMapper
+                    "select b.id, b.name, b.author_id, b.genre_id, a.name author_name, g.name genre_name\n" +
+                        "  from books b\n" +
+                        "  left join authors a on a.id = b.author_id\n" +
+                        "  left join genres g on g.id = b.genre_id\n" +
+                        " where b.genre_id = :genre_id", Map.of("genre_id", genre.getId()), bookMapper
         );
     }
 
