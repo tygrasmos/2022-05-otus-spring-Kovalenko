@@ -42,7 +42,7 @@ public class BookDaoImpl implements BookDao {
                         "  from books b\n" +
                         "  left join authors a on a.id = b.author_id\n" +
                         "  left join genres g on g.id = b.genre_id\n" +
-                        " where b.name = :id", Map.of("id", bookId), bookMapper
+                        " where b.id = :id", Map.of("id", bookId), bookMapper
         );
     }
 
