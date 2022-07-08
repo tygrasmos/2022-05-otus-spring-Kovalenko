@@ -3,13 +3,15 @@ package ru.otus.spring.shell;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import ru.otus.spring.dao.AuthorDao;
+import ru.otus.spring.dao.BookDao;
+import ru.otus.spring.dao.GenreDao;
 import ru.otus.spring.model.Author;
 import ru.otus.spring.model.Book;
 import ru.otus.spring.model.Genre;
 import ru.otus.spring.service.DaoService;
 import ru.otus.spring.service.PrintService;
 
-import java.util.List;
 
 @ShellComponent
 public class ApplicationCommand {
@@ -21,33 +23,42 @@ public class ApplicationCommand {
 
     private final PrintService printService;
     private final DaoService daoService;
+    private final BookDao bookDao;
+    private final AuthorDao authorDao;
+    private final GenreDao genreDao;
 
     public ApplicationCommand(PrintService printService,
-                              DaoService daoService){
+                              DaoService daoService,
+                              BookDao bookDao,
+                              AuthorDao authorDao,
+                              GenreDao genreDao){
         this.printService = printService;
         this.daoService = daoService;
+        this.bookDao = bookDao;
+        this.authorDao = authorDao;
+        this.genreDao = genreDao;
     }
 
     @ShellMethod(value = "Show All Books", key = {"showBooks", "sb", "showB"})
     public void showAllBooks(){
-        printService.print(daoService.showAllBooks(), BOOK_IDENT);
+        printService.print(bookDao.findAll(), BOOK_IDENT);
     }
 
     @ShellMethod(value = "Show All Authors", key = {"showAuthors", "sa", "showA"})
     public void showAllAuthors(){
-        printService.print(daoService.showAllAuthors(), AUTHOR_IDENT);
+        printService.print(authorDao.findAll(), AUTHOR_IDENT);
     }
 
     @ShellMethod(value = "Show All Genres", key = {"showGenres", "sg", "showG"})
     public void showAllGenres(){
-        printService.print(daoService.showAllGenres(), GENRE_IDENT);
+        printService.print(genreDao.findAll(), GENRE_IDENT);
     }
 
     @ShellMethod(value = "Find Book by Author", key = {"findBookAuthor", "fba", "findBA"})
     public void findBookByAuthor(String authorName){
         try {
-            Author author = daoService.findAuthorByName(authorName);
-            printService.print(daoService.findBooksByAuthor(author), BOOK_IDENT);
+            Author author = authorDao.findAuthorByName(authorName);
+            printService.print(bookDao.findBooksByAuthor(author), BOOK_IDENT);
         } catch (EmptyResultDataAccessException e){
             printService.print("Книг с таким автором не найдено.");
         }
@@ -55,9 +66,9 @@ public class ApplicationCommand {
 
     @ShellMethod(value = "Find Book by Genre", key = {"findBookGenre", "fbg", "findBG"})
     public void findBookByGenre(String genreName){
-        Genre genre = daoService.findGenreByName(genreName);
         try {
-            printService.print(daoService.findBooksByGenre(genre), BOOK_IDENT);
+            Genre genre = genreDao.findGenreByName(genreName);
+            printService.print(bookDao.findBooksByGenre(genre), BOOK_IDENT);
         } catch (EmptyResultDataAccessException e){
             printService.print("Книг такого литературного жанра не найдено.");
         }

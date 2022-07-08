@@ -35,41 +35,6 @@ public class DaoServiceImpl implements DaoService {
     }
 
     @Override
-    public List<Book> showAllBooks() {
-        return bookDao.findAll();
-    }
-
-    @Override
-    public List<Author> showAllAuthors() {
-        return authorDao.findAll();
-    }
-
-    @Override
-    public List<Genre> showAllGenres() {
-        return genreDao.findAll();
-    }
-
-    @Override
-    public List<Book> findBooksByAuthor(Author author) {
-        return bookDao.findBooksByAuthor(author);
-    }
-
-    @Override
-    public List<Book> findBooksByGenre(Genre genre) {
-        return bookDao.findBooksByGenre(genre);
-    }
-
-    @Override
-    public Author findAuthorByName(String authorName){
-        return authorDao.findAuthorByName(authorName);
-    }
-
-    @Override
-    public Genre findGenreByName(String genreName) {
-        return genreDao.findGenreByName(genreName);
-    }
-
-    @Override
     public void addBook(Book book) {
         String authorName = book.getAuthor().getAuthorName();
         String genreName = book.getGenre().getGenreName();
