@@ -3,6 +3,7 @@ package ru.otus.spring.service.impl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import ru.otus.spring.model.AnswerOptions;
 import ru.otus.spring.model.CorrectAnswer;
 import ru.otus.spring.model.Question;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@DisplayName("Class CorrectAnswerServiceImpl")
+@SpringBootTest
 public class CorrectAnswerServiceImplTest {
 
     private final String [] testStringArray = {"C1Q1 A2", "Q1 Question?", "A2Q1 Answer2", "C2Q2 A3", "Q2 Question?", "A3Q2 Answer3"};

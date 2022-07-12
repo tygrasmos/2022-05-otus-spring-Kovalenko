@@ -28,7 +28,7 @@ public class StudentTestResultServiceImpl implements StudentTestResultService {
         testResult.setQuestionsQuantity(quantityQuestions);
         testResult.setCorrectAnswersQuantity(quantityCorrectAnswers);
         testResult.setTestScore(getScore(quantityCorrectAnswers, quantityQuestions));
-        testResult.setIsOffset(isOffset(quantityCorrectAnswers));
+        testResult.setOffset(isOffset(quantityCorrectAnswers));
         return testResult;
     }
 

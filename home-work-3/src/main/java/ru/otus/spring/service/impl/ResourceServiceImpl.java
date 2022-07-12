@@ -1,8 +1,8 @@
 package ru.otus.spring.service.impl;
 
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ru.otus.spring.service.LocalizationPropertiesService;
 import ru.otus.spring.service.ResourceService;
 
 import java.io.BufferedReader;
@@ -17,8 +17,11 @@ import java.util.List;
 @Service
 public class ResourceServiceImpl implements ResourceService {
 
-    @Value("${file.path}")
-    private String fileName;
+    private final LocalizationPropertiesService localizationPropertiesService;
+
+    public ResourceServiceImpl(LocalizationPropertiesService localizationPropertiesService){
+        this.localizationPropertiesService = localizationPropertiesService;
+    }
 
     @Override
     public List<String> reedFile() {
@@ -26,7 +29,8 @@ public class ResourceServiceImpl implements ResourceService {
         List<String> reedData = new ArrayList<>();
 
         ClassLoader classLoader = getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+        InputStream inputStream = classLoader.getResourceAsStream(
+                localizationPropertiesService.getLocalizationFile());
 
         if (inputStream != null) {
             InputStreamReader streamReader =

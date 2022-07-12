@@ -3,6 +3,7 @@ package ru.otus.spring.service.impl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import ru.otus.spring.model.AnswerOptions;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @DisplayName("Class AnswerOptionsServiceImpl")
+@SpringBootTest
 class AnswerOptionsServiceImplTest {
 
     private final String [] testStringArray = {"Q1 Question1?", "A1Q1 Answer1", "A2Q1 Answer2"};

@@ -21,12 +21,9 @@ public class QuestionAnsweringServiceImpl implements QuestionAnsweringService {
         this.printService = printService;
     }
 
-    private final static String END_TESTING_TITLE =
-            "----------------------------   End Testing   ------------------------------";
-    private final static String TEST_TITLE =
-            "-------------------------   Begin Student Test  ---------------------------";
-    private final static String NOTE =
-            "The answer options should be entered together with the answer identifier, for example \"A2\".";
+    private final static String END_TESTING_TITLE = "END_TESTING_TITLE";
+    private final static String TEST_TITLE = "TEST_TITLE";
+    private final static String NOTE = "NOTE";
     private final Scanner sc = new Scanner(System.in);
 
     @Override

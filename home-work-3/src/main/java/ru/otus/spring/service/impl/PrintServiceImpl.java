@@ -5,6 +5,7 @@ import ru.otus.spring.model.AnswerOptions;
 import ru.otus.spring.model.CorrectAnswer;
 import ru.otus.spring.model.Question;
 import ru.otus.spring.model.TestResult;
+import ru.otus.spring.service.LocalizationPropertiesService;
 import ru.otus.spring.service.PrintService;
 
 import java.util.List;
@@ -12,22 +13,23 @@ import java.util.List;
 @Service
 public class PrintServiceImpl implements PrintService {
 
-    private final static String QUESTIONS_AND_OPTIONS_ANSWERS_TITLE =
-            "-------------------- Questions and Options Answers ------------------------";
-    private final static String CORRECT_ANSWERS_TO_QUESTIONS_TITLE =
-            "-------------------- Correct answers to questions -------------------------";
-    private final static String QUESTIONS_TITLE =
-            "-----------------------------  Questions  ---------------------------------";
-    private final static String END_TITLE =
-            "---------------------------------   End -----------------------------------";
-    private final static String RESULT_TITLE =
-            "-------------------------   Student Test Result  ---------------------------";
-    private final static String FULL_NAME                = "Full name of the person being tested : ";
-    private final static String QUANTITY_QUESTIONS       = "Number of questions in the test      : ";
-    private final static String QUANTITY_CORRECT_ANSWERS = "Number of correct answers            : ";
-    private final static String TEST_SCORE               = "Test score                           : ";
-    private final static String OFFSET                   = "Is Offset                            : ";
-    private final static String ERROR_MESSAGE = "Failed to reed data from file.";
+    private final static String QUESTIONS_AND_OPTIONS_ANSWERS_TITLE = "QUESTIONS_AND_OPTIONS_ANSWERS_TITLE";
+    private final static String CORRECT_ANSWERS_TO_QUESTIONS_TITLE = "CORRECT_ANSWERS_TO_QUESTIONS_TITLE";
+    private final static String QUESTIONS_TITLE = "QUESTIONS_TITLE";
+    private final static String END_TITLE = "END_TITLE";
+    private final static String RESULT_TITLE = "RESULT_TITLE";
+    private final static String FULL_NAME = "FULL_NAME";
+    private final static String QUANTITY_QUESTIONS = "QUANTITY_QUESTIONS";
+    private final static String QUANTITY_CORRECT_ANSWERS = "QUANTITY_CORRECT_ANSWERS";
+    private final static String TEST_SCORE = "TEST_SCORE";
+    private final static String OFFSET = "OFFSET";
+    private final static String ERROR_MESSAGE = "ERROR_MESSAGE";
+
+    private final LocalizationPropertiesService localizationPropertiesService;
+
+    public PrintServiceImpl(LocalizationPropertiesService localizationPropertiesService){
+        this.localizationPropertiesService = localizationPropertiesService;
+    }
 
 
     @Override
@@ -121,14 +123,21 @@ public class PrintServiceImpl implements PrintService {
             System.out.println("             " + a.getAnswerIdent() + " - " + a.getAnswer());
         } else if (o.getClass().equals(TestResult.class)) {
             TestResult tr = (TestResult) o;
-            System.out.println(FULL_NAME + tr.getAnswersToTestQuestionsModel().getFullName());
-            System.out.println(QUANTITY_QUESTIONS + tr.getQuestionsQuantity());
-            System.out.println(QUANTITY_CORRECT_ANSWERS + tr.getCorrectAnswersQuantity());
-            System.out.println(TEST_SCORE + tr.getTestScore());
-            System.out.println(OFFSET + (tr.getIsOffset().equals(Boolean.TRUE) ? "offset" : "fail"));
+            System.out.println(getLocalizedMessage(FULL_NAME) + tr.getAnswersToTestQuestionsModel().getFullName());
+            System.out.println(getLocalizedMessage(QUANTITY_QUESTIONS) + tr.getQuestionsQuantity());
+            System.out.println(getLocalizedMessage(QUANTITY_CORRECT_ANSWERS) + tr.getCorrectAnswersQuantity());
+            System.out.println(getLocalizedMessage(TEST_SCORE) + tr.getTestScore());
+            System.out.println(getLocalizedMessage(OFFSET)
+                    + (tr.getOffset().equals(Boolean.TRUE)
+                    ? getLocalizedMessage("offset")
+                    : getLocalizedMessage("fail")));
         } else {
             String str = (String) o;
-            System.out.println(str);
+            System.out.println(getLocalizedMessage(str));
         }
+    }
+
+    private String getLocalizedMessage(String messageIdent){
+        return messageIdent.equals("") ? "" : localizationPropertiesService.getLocalizationMessage(messageIdent);
     }
 }
