@@ -42,11 +42,9 @@ public class PrintServiceImpl implements PrintService {
 
     @Override
     public void printQuestions(List<Question> questionList) {
-        questionList.forEach(q -> {
-            print(QUESTIONS_TITLE);
-            print(q);
-            print(END_TITLE);
-        });
+        print(QUESTIONS_TITLE);
+        questionList.forEach(this::print);
+        print(END_TITLE);
     }
 
     @Override

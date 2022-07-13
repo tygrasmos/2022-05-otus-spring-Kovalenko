@@ -13,7 +13,7 @@ public class ApplicationCommands {
         this.presentationService = presentationService;
     }
 
-    @ShellMethod(value = "Start Test", key = {"aq", "startQ"})
+    @ShellMethod(value = "Start Test", key = {"st", "startT"})
     public void startTest() {
         presentationService.presentQuestionsAndAnswersOptions();
     }
@@ -25,6 +25,6 @@ public class ApplicationCommands {
 
     @ShellMethod(value = "Show All Questions and Answers", key = {"sqa", "showQA"})
     public void showQuestionsAndAnswerOptionsAndCorrectAnswers() {
-        presentationService.showAllQuestions();
+        presentationService.showQuestionsAndAnswerOptionsAndCorrectAnswers();
     }
 }

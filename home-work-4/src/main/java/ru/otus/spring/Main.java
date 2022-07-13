@@ -10,10 +10,6 @@ import ru.otus.spring.service.PresentationService;
 public class Main {
 
     public static void main(String[] args) {
-        ApplicationContext context = SpringApplication.run(Main.class);
-        LocalizationPropertiesService localizationPropertiesService = context.getBean(LocalizationPropertiesService.class);
-        localizationPropertiesService.setLocalizationProperties(context);
-        // PresentationService presentationService = context.getBean(PresentationService.class);
-        // presentationService.presentQuestionsAndAnswersOptions();
+        SpringApplication.run(Main.class);
     }
 }

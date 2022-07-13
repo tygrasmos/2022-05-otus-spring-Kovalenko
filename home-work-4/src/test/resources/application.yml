@@ -1,4 +1,10 @@
+spring:
+  shell:
+    interactive:
+      enabled: false
+
 file:
   path: Questions-Answers.csv
 
 quantityCorrectAnswers: 3
+
