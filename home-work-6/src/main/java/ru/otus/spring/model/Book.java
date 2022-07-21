@@ -1,48 +1,43 @@
 package ru.otus.spring.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "books")
+@NamedEntityGraph(name = "book-fields-entity-graph",
+       attributeNodes = {@NamedAttributeNode("author")
+               , @NamedAttributeNode("genre")
+               , @NamedAttributeNode("comments")})
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name", nullable = false, unique = true)
     private String bookName;
+
+
+    @ManyToOne(targetEntity = Author.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_id")
     private Author author;
+
+
+    @ManyToOne(targetEntity = Genre.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "genre_id")
     private Genre genre;
 
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        Author newAuthor = new Author();
-        newAuthor.setId(author.getId());
-        newAuthor.setAuthorName(author.getAuthorName());
-        this.author = newAuthor;
-    }
-
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        Genre newGenre = new Genre();
-        newGenre.setId(genre.getId());
-        newGenre.setGenreName(genre.getGenreName());
-        this.genre = newGenre;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getBookName() {
-        return bookName;
-    }
-
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
-    }
+    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "book_id")
+    private List<Comment> comments;
 }

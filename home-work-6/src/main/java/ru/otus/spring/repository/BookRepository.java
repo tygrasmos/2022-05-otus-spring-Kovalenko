@@ -1,4 +1,4 @@
-package ru.otus.spring.dao;
+package ru.otus.spring.repository;
 
 import ru.otus.spring.model.Author;
 import ru.otus.spring.model.Book;
@@ -6,7 +6,7 @@ import ru.otus.spring.model.Genre;
 
 import java.util.List;
 
-public interface BookDao {
+public interface BookRepository {
 
     Long getCount();
 
@@ -22,7 +22,7 @@ public interface BookDao {
 
     List<Book> findBooksByGenre(Genre genre);
 
-    void add(Book book);
+    Book add(Book book);
 
     void update(Book book);
 

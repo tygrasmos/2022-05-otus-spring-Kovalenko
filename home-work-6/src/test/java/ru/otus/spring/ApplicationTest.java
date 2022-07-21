@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
-import ru.otus.spring.dao.impl.AuthorDaoImpl;
-import ru.otus.spring.dao.impl.BookDaoImpl;
-import ru.otus.spring.dao.impl.GenreDaoImpl;
+import ru.otus.spring.repository.impl.AuthorRepositoryImpl;
+import ru.otus.spring.repository.impl.BookRepositoryImpl;
+import ru.otus.spring.repository.impl.GenreRepositoryImpl;
 import ru.otus.spring.model.Author;
 import ru.otus.spring.model.Book;
 import ru.otus.spring.model.Genre;
@@ -28,11 +28,11 @@ public class ApplicationTest {
     private static final Long TEST_ID_FOR_ADDED = 7L;
 
     @Autowired
-    private BookDaoImpl bookDao;
+    private BookRepositoryImpl bookDao;
     @Autowired
-    private AuthorDaoImpl authorDao;
+    private AuthorRepositoryImpl authorDao;
     @Autowired
-    private GenreDaoImpl genreDao;
+    private GenreRepositoryImpl genreDao;
 
     @DisplayName("BookDao должен возвращать количество книг в библиотеке")
     @Test

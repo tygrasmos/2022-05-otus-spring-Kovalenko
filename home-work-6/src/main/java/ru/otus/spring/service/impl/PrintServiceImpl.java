@@ -3,6 +3,7 @@ package ru.otus.spring.service.impl;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.model.Author;
 import ru.otus.spring.model.Book;
+import ru.otus.spring.model.Comment;
 import ru.otus.spring.model.Genre;
 import ru.otus.spring.service.PrintService;
 
@@ -55,7 +56,8 @@ public class PrintServiceImpl implements PrintService {
 
     private void printBook(Book book){
         System.out.println(book.getId() + "     " + "'" + book.getBookName() + "'" + "      " +
-                "'" + book.getAuthor().getAuthorName() + "'" + "        " + "'" + book.getGenre().getGenreName() + "'");
+                "'" + book.getAuthor().getAuthorName() + "'" + "        " + "'" + book.getGenre().getGenreName() + "'"
+                +  "        " + "'" + getComments(book.getComments())  + "'");
     }
 
     private void printAuthor(Author author){
@@ -64,6 +66,15 @@ public class PrintServiceImpl implements PrintService {
 
     private void printGenre(Genre genre){
         System.out.println(genre.getId() + "        " + "'" + genre.getGenreName() + "'");
+    }
+
+    private String getComments(List<Comment> comments){
+        StringBuilder sb = new StringBuilder();
+        comments.forEach(c ->{
+            sb.append(c.getComment());
+            sb.append("; ");
+        });
+        return sb.substring(0, sb.length() - 2);
     }
 
 }

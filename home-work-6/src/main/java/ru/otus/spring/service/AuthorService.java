@@ -1,10 +1,10 @@
-package ru.otus.spring.dao;
+package ru.otus.spring.service;
 
 import ru.otus.spring.model.Author;
 
 import java.util.List;
 
-public interface AuthorDao {
+public interface AuthorService {
 
     Long getCount();
 
@@ -16,9 +16,10 @@ public interface AuthorDao {
 
     List<Author> findAll();
 
-    void add(Author author);
+    void addAuthor(Author author);
 
-    void update(Author author);
+    void changeAuthor(Author oldAuthor, Author newAuthor);
 
-    void delete(Author author);
+    void deleteAuthor(Author author);
+
 }

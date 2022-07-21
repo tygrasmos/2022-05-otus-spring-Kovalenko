@@ -1,10 +1,10 @@
-package ru.otus.spring.service;
+package ru.otus.spring.repository;
 
 import ru.otus.spring.model.Genre;
 
 import java.util.List;
 
-public interface GenreDaoService {
+public interface GenreRepository {
 
     Long getCount();
 
@@ -16,10 +16,9 @@ public interface GenreDaoService {
 
     List<Genre> findAll();
 
-    void addGenre(Genre genre);
+    Genre add(Genre genre);
 
-    void changeGenre(Genre oldGenre, Genre newGenre);
+    void update(Genre genre);
 
-    void deleteGenre(Genre genre);
-
+    void delete(Genre genre);
 }
