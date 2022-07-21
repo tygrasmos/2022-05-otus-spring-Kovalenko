@@ -3,14 +3,10 @@ package ru.otus.spring.shell;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import ru.otus.spring.dao.AuthorDao;
-import ru.otus.spring.dao.BookDao;
-import ru.otus.spring.dao.GenreDao;
 import ru.otus.spring.model.Author;
 import ru.otus.spring.model.Book;
 import ru.otus.spring.model.Genre;
-import ru.otus.spring.service.DaoService;
-import ru.otus.spring.service.PrintService;
+import ru.otus.spring.service.*;
 
 
 @ShellComponent
@@ -22,43 +18,40 @@ public class ApplicationCommand {
     private final static String GENERATED_RECORD_ERROR = "error";
 
     private final PrintService printService;
-    private final DaoService daoService;
-    private final BookDao bookDao;
-    private final AuthorDao authorDao;
-    private final GenreDao genreDao;
+    private final BookDaoService bookDaoService;
+    private final AuthorDaoService authorDaoService;
+    private final GenreDaoService genreDaoService;
 
     public ApplicationCommand(PrintService printService,
-                              DaoService daoService,
-                              BookDao bookDao,
-                              AuthorDao authorDao,
-                              GenreDao genreDao){
+                              BookDaoService bookDaoService,
+                              AuthorDaoService authorDaoService,
+                              GenreDaoService genreDaoService){
         this.printService = printService;
-        this.daoService = daoService;
-        this.bookDao = bookDao;
-        this.authorDao = authorDao;
-        this.genreDao = genreDao;
+        this.bookDaoService = bookDaoService;
+        this.authorDaoService = authorDaoService;
+        this.genreDaoService = genreDaoService;
     }
 
     @ShellMethod(value = "Show All Books", key = {"showBooks", "sb", "showB"})
     public void showAllBooks(){
-        printService.print(bookDao.findAll(), BOOK_IDENT);
+        printService.print(bookDaoService.findAll(), BOOK_IDENT);
     }
 
     @ShellMethod(value = "Show All Authors", key = {"showAuthors", "sa", "showA"})
     public void showAllAuthors(){
-        printService.print(authorDao.findAll(), AUTHOR_IDENT);
+        printService.print(authorDaoService.findAll(), AUTHOR_IDENT);
     }
 
     @ShellMethod(value = "Show All Genres", key = {"showGenres", "sg", "showG"})
     public void showAllGenres(){
-        printService.print(genreDao.findAll(), GENRE_IDENT);
+        printService.print(genreDaoService.findAll(), GENRE_IDENT);
     }
 
     @ShellMethod(value = "Find Book by Author", key = {"findBookAuthor", "fba", "findBA"})
     public void findBookByAuthor(String authorName){
         try {
-            Author author = authorDao.findAuthorByName(authorName);
-            printService.print(bookDao.findBooksByAuthor(author), BOOK_IDENT);
+            Author author = authorDaoService.findAuthorByName(authorName);
+            printService.print(bookDaoService.findBooksByAuthor(author), BOOK_IDENT);
         } catch (EmptyResultDataAccessException e){
             printService.print("Книг с таким автором не найдено.");
         }
@@ -67,8 +60,8 @@ public class ApplicationCommand {
     @ShellMethod(value = "Find Book by Genre", key = {"findBookGenre", "fbg", "findBG"})
     public void findBookByGenre(String genreName){
         try {
-            Genre genre = genreDao.findGenreByName(genreName);
-            printService.print(bookDao.findBooksByGenre(genre), BOOK_IDENT);
+            Genre genre = genreDaoService.findGenreByName(genreName);
+            printService.print(bookDaoService.findBooksByGenre(genre), BOOK_IDENT);
         } catch (EmptyResultDataAccessException e){
             printService.print("Книг такого литературного жанра не найдено.");
         }
@@ -81,7 +74,7 @@ public class ApplicationCommand {
         book.setAuthor(createAuthor(authorName));
         book.setGenre(createGenre(genreName));
         try{
-            daoService.addBook(book);
+            bookDaoService.addBook(book);
             printService.print("Новая книга успешно добавлена в базу.");
         } catch (RuntimeException e){
             switch (e.getMessage()) {
@@ -101,7 +94,7 @@ public class ApplicationCommand {
     @ShellMethod(value = "Add new Author", key = {"addAuthor", "aa", "addA"})
     public void addNewAuthor(String authorName){
         try {
-            daoService.addAuthor(createAuthor(authorName));
+            authorDaoService.addAuthor(createAuthor(authorName));
             printService.print("Новый автор успешно добавлен в базу.");
         } catch (RuntimeException e){
             printService.print("Автор с таким именем уже существует в базе. Поробуйте задать другое имя.");
@@ -111,7 +104,7 @@ public class ApplicationCommand {
     @ShellMethod(value = "Add new Genre", key = {"addGenre", "ag", "addG"})
     public void addNewGenre(String genreName){
         try {
-            daoService.addGenre(createGenre(genreName));
+            genreDaoService.addGenre(createGenre(genreName));
             printService.print("Новый жанр успешно добавлен в базу.");
         } catch (RuntimeException e){
             printService.print("Такой жанр литературы уже существует в базе. Поробуйте задать другой жанр.");
@@ -123,7 +116,7 @@ public class ApplicationCommand {
         Book book = new Book();
         book.setBookName(bookName);
         try {
-            daoService.deleteBook(book);
+            bookDaoService.deleteBook(book);
             printService.print("Книга успешно удалена из базы.");
         } catch (RuntimeException e){
             printService.print("Невозможно удалить книгу из базы. Такой книги не существует.");
@@ -133,7 +126,7 @@ public class ApplicationCommand {
     @ShellMethod(value = "Delete Author", key = {"deleteAuthor", "da", "deleteA"})
     public void deleteAuthor(String authorName){
         try {
-            daoService.deleteAuthor(createAuthor(authorName));
+            authorDaoService.deleteAuthor(createAuthor(authorName));
             printService.print("Автор успешно удален из базы.");
         } catch (RuntimeException e){
             if(e.getMessage().equals(GENERATED_RECORD_ERROR)){
@@ -149,7 +142,7 @@ public class ApplicationCommand {
     @ShellMethod(value = "Delete Genre", key = {"deleteGenre", "dg", "deleteG"})
     public void deleteGenre(String genreName){
         try {
-            daoService.deleteGenre(createGenre(genreName));
+            genreDaoService.deleteGenre(createGenre(genreName));
             printService.print("Жанр литературы успешно удален из базы.");
         } catch (RuntimeException e){
             if(e.getMessage().equals(GENERATED_RECORD_ERROR)){
@@ -169,7 +162,7 @@ public class ApplicationCommand {
         Book newBook = new Book();
         newBook.setBookName(newBookName);
         try {
-            daoService.changeBook(oldBook, newBook);
+            bookDaoService.changeBook(oldBook, newBook);
             printService.print("Книга была успешно изменена.");
         } catch (RuntimeException e){
             printService.print("Невозможно изменить книгу. Книги с таким названием не существует.");
@@ -179,7 +172,7 @@ public class ApplicationCommand {
     @ShellMethod(value = "Change Author", key = {"changeAuthor", "ca", "changeA"})
     public void changeAuthor(String oldAuthorName, String newAuthorName){
         try {
-            daoService.changeAuthor(createAuthor(oldAuthorName), createAuthor(newAuthorName));
+            authorDaoService.changeAuthor(createAuthor(oldAuthorName), createAuthor(newAuthorName));
             printService.print("Автор был успешно изменён.");
         } catch (RuntimeException e){
             printService.print("Невозможно изменить автора. Автора с таким именем не существует.");
@@ -189,7 +182,7 @@ public class ApplicationCommand {
     @ShellMethod(value = "Change Genre", key = {"changeGenre", "cg", "changeG"})
     public void changeGenre(String oldGenreName, String newGenreName){
         try {
-            daoService.changeGenre(createGenre(oldGenreName), createGenre(newGenreName));
+            genreDaoService.changeGenre(createGenre(oldGenreName), createGenre(newGenreName));
             printService.print("Жанр литературы успешно изменён.");
         } catch (RuntimeException e){
             printService.print("Невозможно изменить жанр литературы. Жанра таким именем не существует.");

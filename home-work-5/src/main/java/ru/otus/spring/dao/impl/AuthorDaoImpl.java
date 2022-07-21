@@ -1,11 +1,10 @@
 package ru.otus.spring.dao.impl;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
-import ru.otus.spring.dao.AuthorDao;
 import ru.otus.spring.dao.mapper.AuthorMapper;
 import ru.otus.spring.model.Author;
+import ru.otus.spring.dao.AuthorDao;
 
 import java.util.List;
 import java.util.Map;
