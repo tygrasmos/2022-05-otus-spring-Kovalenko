@@ -34,7 +34,7 @@ public class ApplicationTest {
     @Autowired
     private GenreRepositoryImpl genreDao;
 
-    @DisplayName("BookDao должен возвращать количество книг в библиотеке")
+  /*  @DisplayName("BookDao должен возвращать количество книг в библиотеке")
     @Test
     void shouldReturnTheNumberOfBooksInTheLibrary(){
         Long actualBooksCount = bookDao.getCount();
@@ -321,5 +321,5 @@ public class ApplicationTest {
         existingAuthor = getTestAuthor(6L, "Лесков");
         existingAuthorList.add(existingAuthor);
         return existingAuthorList;
-    }
+    }*/
 }
