@@ -42,7 +42,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> findCommentByBookId(Long bookId) {
+    public List<Comment> findCommentsByBookId(Long bookId) {
         return null;
     }
 

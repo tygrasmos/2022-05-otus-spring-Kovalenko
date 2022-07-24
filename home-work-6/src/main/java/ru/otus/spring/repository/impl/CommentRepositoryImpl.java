@@ -43,7 +43,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public List<Comment> findCommentByBookId(Long bookId) {
+    public List<Comment> findCommentsByBookId(Long bookId) {
         TypedQuery<Comment> query = entityManager.createQuery(
                 "Select c from Comment c where c.bookId = :id", Comment.class);
         query.setParameter("id", bookId);

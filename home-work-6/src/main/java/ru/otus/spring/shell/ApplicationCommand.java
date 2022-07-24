@@ -16,6 +16,7 @@ public class ApplicationCommand {
     private final static String BOOK_IDENT = "book";
     private final static String AUTHOR_IDENT = "author";
     private final static String GENRE_IDENT = "genre";
+    private final static String COMMENT_IDENT = "comment";
     private final static String GENERATED_RECORD_ERROR = "error";
 
     private final PrintService printService;
@@ -49,6 +50,21 @@ public class ApplicationCommand {
     @ShellMethod(value = "Show All Genres", key = {"showGenres", "sg", "showG"})
     public void showAllGenres(){
         printService.print(genreService.findAll(), GENRE_IDENT);
+    }
+
+    @ShellMethod(value = "Show All Comments", key = {"showComments", "sc", "showC"})
+    public void showAllComments(){
+        printService.print(commentService.findAll(), COMMENT_IDENT);
+    }
+
+    @ShellMethod(value = "Find Comments by Book", key = {"findCommentBook", "fcb", "findCB"})
+    public void findCommentByBook(String bookName){
+        try {
+            Book book = bookService.findBookByName(bookName);
+            printService.print(commentService.findCommentsByBookId(book.getId()), COMMENT_IDENT);
+        } catch (EmptyResultDataAccessException e){
+            printService.print("Комментариев к такой книге не найдено.");
+        }
     }
 
     @ShellMethod(value = "Find Book by Author", key = {"findBookAuthor", "fba", "findBA"})
@@ -168,6 +184,16 @@ public class ApplicationCommand {
             } else {
                 printService.print("Невозможно удалить жанр литературы из базы. Жанра таким именем не существует.");
             }
+        }
+    }
+
+    @ShellMethod(value = "Delete all Comments from teh Book", key = {"deleteCommentsBook", "dcb", "deleteCB"})
+    public void deleteCommentsFromBook(String bookName){
+        try {
+            commentService.findCommentsByBookId(bookService.findBookByName(bookName).getId()).forEach(commentService::delete);
+            printService.print("Комментарии к книге успешно удалены.");
+        } catch (RuntimeException e){
+            printService.print("Невозможно удалить комментари к книге. Такой книги не существует в базе.");
         }
     }
 

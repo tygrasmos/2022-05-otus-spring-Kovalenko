@@ -13,7 +13,7 @@ public interface CommentService {
 
     Comment findCommentById(Long commentId);
 
-    List<Comment> findCommentByBookId(Long bookId);
+    List<Comment> findCommentsByBookId(Long bookId);
 
     List<Comment> findAll();
 
